@@ -5,15 +5,30 @@ A simple script to loop a video from USB on boot.
 Based on this article but modified to work with VLC and USB drive.
 https://community.spiceworks.com/how_to/135908-loop-a-single-video-on-a-raspberry-pi
 
-# Usage
-Download code and make it executable. Start with ./videoloop start. Cronjob on boot to start it and a cronjob every minute to see if VLC has crasched. Expects an USB drive formatted in exFat with only one partition and will play file named 1.mp4.
+## How to
 
-# cronjobs
+### Step 1
+Install VLC and screen
+```
+sudo apt install vlc
+sudo apt install screen
+```
+### Step 2
+Put script in homefolder (/home/pi). Make it executable with
+```
+chmod +x /home/pi/videoloop 
+```
+### Step 3
+Format a USB drive with exFat, or modify the code to other filesystem. Rename video to 1.mp4 and put in the root folder of the USB drive.
+### Step 4
 Put this in cron with crontab -e. 
 ```
 @reboot echo "crontab loaded, waiting 10 sec" && sleep 10 && /home/pi/videoloop start
-* * * * * echo "Checking if video has stopped" && sleep 1 && /home/pi/videoloop repair
+* * * * * echo "Checking if video has stopped" && sleep 1 && /home/pi/videoloop repair 
 ```
 
-# Future development
+## That's it.
+Reboot it and it should start playing on boot.  
+
+## Future development
 Rewrite script to look for playlist instead of specific file. 
