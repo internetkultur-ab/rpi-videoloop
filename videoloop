@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# start
+case "$1" in start)
+echo "Unmounting USB"
+sudo umount /mnt/usb0
+echo "Mounting USB"
+sudo mount -t exfat /dev/sda1 /mnt/usb0
+echo "Starting screen"
+screen -dmS videoloop sh -c "vlc -Rf --no-osd /mnt/usb0/1.mp4"
+echo "Video started"
+;;
+
+#stop
+stop)
+sudo killall vlc
+echo "Video stopped"
+;;
+
+#repair
+repair)
+if !(ps -a | grep vlc -q)
+        then
+        echo "Unmounting USB"
+        sudo umount /mnt/usb0
+        echo "Mounting USB"
+        sudo mount -t exfat /dev/sda /mnt/usb0
+        echo "Starting screen"
+        screen -dmS videoloop sh -c "vlc -Rf --no-osd /mnt/usb0/1.mp4"
+        echo "Back on track"
+fi
+;;
+
+*)
+echo "Usage: start/stop/repair"
+
+exit 1
+
+;;
+esac
